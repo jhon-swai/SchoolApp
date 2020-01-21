@@ -25,9 +25,6 @@ import android.widget.Toast;
 
 import com.example.schoolapp.MainActivity;
 import com.example.schoolapp.R;
-import com.example.schoolapp.StudentActivity;
-import com.example.schoolapp.ui.login.LoginViewModel;
-import com.example.schoolapp.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
