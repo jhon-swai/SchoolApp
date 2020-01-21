@@ -12,22 +12,22 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_course_results"
+        android:id="@+id/nav_gallery"
         android:name="com.example.schoolapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_course_results"
-        tools:layout="@layout/fragment_course_results" />
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.schoolapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_course_registered"
-        tools:layout="@layout/fragment_course_registered" />
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_tools"
         android:name="com.example.schoolapp.ui.tools.ToolsFragment"
-        android:label="@string/menu_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:label="@string/menu_tools"
+        tools:layout="@layout/fragment_tools" />
 
     <fragment
         android:id="@+id/nav_share"

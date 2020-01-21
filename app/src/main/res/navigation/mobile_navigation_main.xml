@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home_main">
+
+    <fragment
+        android:id="@+id/nav_home_main"
+        android:name="com.example.schoolapp.ui.home_main.HomeFragment"
+        android:label="@string/menu_home_main"
+        tools:layout="@layout/fragment_home_main" />
+
+    <fragment
+        android:id="@+id/nav_course_results_main"
+        android:name="com.example.schoolapp.ui.gallery_main.GalleryFragment"
+        android:label="@string/menu_course_results_main"
+        tools:layout="@layout/fragment_course_results_main" />
+
+    <fragment
+        android:id="@+id/nav_slideshow_main"
+        android:name="com.example.schoolapp.ui.slideshow_main.SlideshowFragment"
+        android:label="@string/menu_course_registered_main"
+        tools:layout="@layout/fragment_course_registered_main" />
+
+    <fragment
+        android:id="@+id/nav_tools_main"
+        android:name="com.example.schoolapp.ui.tools_main.ToolsFragment"
+        android:label="@string/menu_profile_main"
+        tools:layout="@layout/fragment_profile_main" />
+
+    <fragment
+        android:id="@+id/nav_share_main"
+        android:name="com.example.schoolapp.ui.share_main.ShareFragment"
+        android:label="@string/menu_share_main"
+        tools:layout="@layout/fragment_share_main" />
+
+    <fragment
+        android:id="@+id/nav_send_main"
+        android:name="com.example.schoolapp.ui.send_main.SendFragment"
+        android:label="@string/menu_send_main"
+        tools:layout="@layout/fragment_send_main" />
+</navigation>
