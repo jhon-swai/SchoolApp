@@ -1,6 +1,7 @@
 package com.example.schoolapp;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,13 +13,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class LocationDatabaseHelper extends SQLiteOpenHelper {
-    private static String DB_NAME = "mydatab.db";
+    private static String DB_NAME = "location.db";
     private static String DB_PATH = "";
     private static final int DB_VERSION = 1;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
     private boolean mNeedUpdate = false;
+
+    private static final String REGION_TABLE = "Regions";
+    private static final String DISTRICT_TABLE = "Districts";
+    private static final String WARD_TABLE = "Wards";
+
 
     public LocationDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,6 +38,8 @@ public class LocationDatabaseHelper extends SQLiteOpenHelper {
 
         this.getReadableDatabase();
     }
+
+
     public void updateDataBase() throws IOException {
         if (mNeedUpdate) {
             File dbFile = new File(DB_PATH + DB_NAME);
@@ -43,6 +51,7 @@ public class LocationDatabaseHelper extends SQLiteOpenHelper {
             mNeedUpdate = false;
         }
     }
+
     private boolean checkDataBase() {
         File dbFile = new File(DB_PATH + DB_NAME);
         return dbFile.exists();
@@ -76,6 +85,21 @@ public class LocationDatabaseHelper extends SQLiteOpenHelper {
         mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
     }
+    // location method
+
+    public String [] getRegions(){
+        String columns[] = {"reion"};
+        mDataBase = this.getReadableDatabase();
+        Cursor cursor = mDataBase.query(REGION_TABLE, columns,null,null,null, null,null);
+
+
+        // loop to get all the regions
+
+        //close the database
+        mDataBase.close();
+        return columns;
+    }
+
     @Override
     public synchronized void close() {
         if (mDataBase != null)
