@@ -1,9 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AdminActivity"
+        android:orientation="vertical">
+        <!--registration number-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registration number"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"
+            />
+
+        <EditText
+            android:id="@+id/registration_number_input_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:hint="2018-01-10101"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+        <!--    first name -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First name"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"/>
+
+        <EditText
+            android:id="@+id/first_name_input_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:hint="John"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last name"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"
+            />
+
+        <EditText
+            android:id="@+id/last_name_input_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:hint="Doe"
+            android:inputType="text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"/>
+
+        <EditText
+            android:inputType="textEmailAddress"
+            android:id="@+id/email_input_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:hint="johndoe@gmail.com"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date of birth"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"/>
+        <EditText
+            android:id="@+id/date_input_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:hint="10/03/2020"
+            android:inputType="date"
+            android:editable="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone number"
+            android:layout_marginLeft="20dp"
+            android:paddingRight="15dp"
+            android:layout_marginTop="30dp"/>
+
+        <EditText
+            android:inputType="textEmailAddress"
+            android:id="@+id/phone_input_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:paddingRight="10dp"
+            android:hint="255767234356"/>
+
+        <RadioGroup
+            android:id="@+id/radio_grp_gender_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_btn_male_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:text="Male"/>
+            <RadioButton
+                android:id="@+id/radio_btn_female_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:text="Female"/>
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/spinner_region_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            />
+        <Spinner
+            android:id="@+id/spinner_district_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            />
+        <Spinner
+            android:id="@+id/ward_ward_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            />
+
+
+        <Button
+            android:id="@+id/save_btn_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="center"
+            android:text="Save"/>
+    </LinearLayout>
+
+</ScrollView>

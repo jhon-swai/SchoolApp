@@ -46,6 +46,7 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+//        location
         mLocationDBHelper = new LocationDatabaseHelper(this);
         try {
             mLocationDBHelper.updateDataBase();
@@ -97,7 +98,9 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-//        Temporary spinners
+//        location spinners
+
+
 
 
 

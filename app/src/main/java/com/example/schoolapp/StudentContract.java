@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class StudentContract {
     // To prevent someone from accidentally instantiating the contract class
     private StudentContract(){}
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + StudentEntry.TABLE_NAME + " (" + StudentEntry.COLUMN_NAME_STUDENT_ID + "TEXT PRIMARY KEY," + StudentEntry.COLUMN_NAME_FIRST_NAME + " TEXT," + StudentEntry.COLUMN_NAME_LAST_NAME + " TEXT," +  StudentEntry.COLUMN_NAME_EMAIL + " TEXT," + StudentEntry.COLUMN_NAME_PHONE + " TEXT," + StudentEntry.COLUMN_NAME_REGION + " TEXT," + StudentEntry.COLUMN_NAME_DISTRICT + " TEXT," + StudentEntry.COLUMN_NAME_WARD + " TEXT," + StudentEntry.COLUMN_NAME_PASSWORD + " TEXT,";
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + StudentEntry.TABLE_NAME + " (" + StudentEntry.COLUMN_NAME_STUDENT_ID + "TEXT PRIMARY KEY," + StudentEntry.COLUMN_NAME_FIRST_NAME + " TEXT," + StudentEntry.COLUMN_NAME_LAST_NAME + " TEXT," +  StudentEntry.COLUMN_NAME_EMAIL + " TEXT," + StudentEntry.COLUMN_NAME_PHONE + " TEXT," + StudentEntry.COLUMN_NAME_REGION + " TEXT," + StudentEntry.COLUMN_NAME_DISTRICT + " TEXT," + StudentEntry.COLUMN_NAME_WARD + " TEXT," + StudentEntry.COLUMN_NAME_BIRTH_DATE + " TEXT, "+ StudentEntry.COLUMN_NAME_PASSWORD + " TEXT,";
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + StudentEntry.TABLE_NAME;
 
     /* Inner class that defines the table contents */
@@ -22,6 +22,8 @@ public class StudentContract {
         public static final String COLUMN_NAME_REGION = "region";
         public static final String COLUMN_NAME_DISTRICT = "district";
         public static final String COLUMN_NAME_WARD = "ward";
+        public static final String COLUMN_NAME_BIRTH_DATE = "ward";
+
         public static final String COLUMN_NAME_PASSWORD = "password";
 
     }
@@ -35,6 +37,7 @@ public class StudentContract {
 
 
         public void onCreate(SQLiteDatabase db) {
+
             db.execSQL(SQL_CREATE_ENTRIES);
         }
 
