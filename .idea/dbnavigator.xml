@@ -11,9 +11,9 @@
       <quote-values-containing-separator value="false" />
       <quote-all-values value="false" />
       <value-separator value="" />
-      <file-name value="Regions.sql" />
+      <file-name value="Wards.sql" />
       <file-location value="$USER_HOME$/Desktop/android regions" />
-      <scope value="SELECTION" />
+      <scope value="GLOBAL" />
       <destination value="FILE" />
       <format value="SQL" />
       <charset value="UTF-8" />
@@ -25,7 +25,10 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="1a88a11c-42eb-4b3e-9d64-ce17afe52239">
-        <schema name="main" object-types="table, view, constraint, index, column, dataset trigger" />
+        <schema name="main" object-types="table, view, index, column, dataset trigger, constraint" />
+      </connection>
+      <connection connection-id="5238de47-cc63-4a80-b16d-53ae7fa82bf3">
+        <schema name="main" object-types="table, view, index, column, dataset trigger, constraint" />
       </connection>
     </loaded-nodes>
   </component>
@@ -39,6 +42,9 @@
     <connection id="f0bd75d8-6078-46c1-bbd8-9e88e42b4d42">
       <console name="Connection 2" type="STANDARD" schema="" session="Main" />
     </connection>
+    <connection id="5238de47-cc63-4a80-b16d-53ae7fa82bf3">
+      <console name="tanzania" type="STANDARD" schema="main" session="Main" />
+    </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
@@ -47,8 +53,11 @@
     <connection id="1a88a11c-42eb-4b3e-9d64-ce17afe52239" />
     <connection id="6b60d201-6576-4eb0-be07-da0c948a6783" />
     <connection id="f0bd75d8-6078-46c1-bbd8-9e88e42b4d42" />
+    <connection id="5238de47-cc63-4a80-b16d-53ae7fa82bf3" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="5238de47-cc63-4a80-b16d-53ae7fa82bf3" dataset="main.Wards" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="5238de47-cc63-4a80-b16d-53ae7fa82bf3" dataset="main.Districts" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="1a88a11c-42eb-4b3e-9d64-ce17afe52239" dataset="main.Wards" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="1a88a11c-42eb-4b3e-9d64-ce17afe52239" dataset="main.Regions" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="1a88a11c-42eb-4b3e-9d64-ce17afe52239" dataset="main.Districts" active-filter-id="EMPTY_FILTER" />
@@ -262,6 +271,92 @@
           <database value="database" />
           <files>
             <file path="sqlite.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="5238de47-cc63-4a80-b16d-53ae7fa82bf3" active="true">
+        <database>
+          <name value="tanzania" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.21" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="localhost" />
+          <port value="1234" />
+          <database value="database" />
+          <files>
+            <file path="$USER_HOME$/Desktop/school app/tanzania.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

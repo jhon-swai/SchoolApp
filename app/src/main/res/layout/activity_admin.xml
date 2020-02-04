@@ -162,7 +162,7 @@
             android:layout_marginTop="30dp"
             />
         <Spinner
-            android:id="@+id/ward_ward_admin"
+            android:id="@+id/spinner_ward_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

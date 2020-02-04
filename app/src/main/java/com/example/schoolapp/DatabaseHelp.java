@@ -10,7 +10,7 @@ public class DatabaseHelp extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "school.db";
 
 
@@ -42,8 +42,8 @@ public class DatabaseHelp extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(db);
+        /*db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);*/
     }
 
 

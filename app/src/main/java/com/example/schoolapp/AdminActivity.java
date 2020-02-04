@@ -7,14 +7,18 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AdminActivity extends AppCompatActivity {
@@ -39,6 +43,12 @@ public class AdminActivity extends AppCompatActivity {
 //    Location
     private LocationDatabaseHelper mLocationDBHelper;
     private SQLiteDatabase mDb;
+
+//    spinners
+    Spinner regionSpinner;
+    Spinner districtSpinner;
+    Spinner wardSpinner;
+
 
 
     @Override
@@ -72,6 +82,11 @@ public class AdminActivity extends AppCompatActivity {
         radioButtonMale = (RadioButton) findViewById(R.id.radio_btn_male_admin);
         radioButtonFemale =(RadioButton) findViewById(R.id.radio_btn_female_admin);
 
+        regionSpinner = (Spinner) findViewById(R.id.spinner_region_admin);
+        districtSpinner= (Spinner) findViewById(R.id.spinner_district_admin);
+        wardSpinner = (Spinner) findViewById(R.id.spinner_ward_admin);
+
+
 
         //        Database initialization
         databaseHelp = new DatabaseHelp(this);
@@ -99,6 +114,76 @@ public class AdminActivity extends AppCompatActivity {
         });
 
 //        location spinners
+        final ArrayList<String> wardSpinnerArray = new ArrayList<>();
+        wardSpinnerArray.addAll(mLocationDBHelper.getWards());
+
+        final ArrayAdapter<String> wardAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, wardSpinnerArray);
+        wardSpinner.setAdapter(wardAdapter);
+        districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        final ArrayList<String> districtSpinnerArray =new ArrayList<>();
+        districtSpinnerArray.addAll(mLocationDBHelper.getDistricts());
+
+        final ArrayAdapter<String> districtAdapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,districtSpinnerArray);
+        districtSpinner.setAdapter(districtAdapter);
+
+        districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDistrict = districtSpinnerArray.get(position);
+                mLocationDBHelper.setSelectedDistrict(selectedDistrict);
+
+                wardSpinnerArray.clear();
+                wardSpinnerArray.addAll(mLocationDBHelper.getWards());
+                wardAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        final ArrayList<String> regionSpinnerArray = new ArrayList<>();
+        regionSpinnerArray.addAll((mLocationDBHelper.getRegions()));
+
+        final ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,regionSpinnerArray);
+        regionSpinner.setAdapter(regionAdapter);
+
+        regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectReg = regionSpinnerArray.get(position);
+                mLocationDBHelper.setSelectedRegion(selectReg);
+
+                districtSpinnerArray.clear();
+                districtSpinnerArray.addAll(mLocationDBHelper.getDistricts());
+                districtAdapter.notifyDataSetChanged();
+//
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+        });
+
+
+
+
+
 
 
 
@@ -113,14 +198,6 @@ public class AdminActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
-
 
     }
 }

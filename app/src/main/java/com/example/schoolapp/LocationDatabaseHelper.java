@@ -11,11 +11,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class LocationDatabaseHelper extends SQLiteOpenHelper {
-    private static String DB_NAME = "location.db";
+    private static String DB_NAME = "tanzania.db";
     private static String DB_PATH = "";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -24,6 +25,21 @@ public class LocationDatabaseHelper extends SQLiteOpenHelper {
     private static final String REGION_TABLE = "Regions";
     private static final String DISTRICT_TABLE = "Districts";
     private static final String WARD_TABLE = "Wards";
+
+    private String selectedRegion = "Dar es Salaam Region";
+    private String selectedDistrict = "Kinondoni Municipal";
+    private String selectedWard;
+
+    public void setSelectedRegion(String selectedRegion){
+        this.selectedRegion = selectedRegion + " Region";
+
+    }
+
+    public void setSelectedDistrict(String selectedDistrict){
+        this.selectedDistrict = selectedDistrict;
+    }
+
+
 
 
     public LocationDatabaseHelper(Context context) {
@@ -87,17 +103,120 @@ public class LocationDatabaseHelper extends SQLiteOpenHelper {
     }
     // location method
 
-    public String [] getRegions(){
-        String columns[] = {"reion"};
+    public ArrayList<String> getRegions(){
+        String columns[] = {"region"};
+
+        ArrayList<String> regions = new ArrayList<>();
+
         mDataBase = this.getReadableDatabase();
+
         Cursor cursor = mDataBase.query(REGION_TABLE, columns,null,null,null, null,null);
+        int count = cursor.getColumnCount();
+        String cursorString;
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    for (int i = 0; i < count; i++) {
+                        cursorString = cursor.getString(i);
+                        regions.add(cursorString);
+                    }
+
+                } while (cursor.moveToNext());
+            }
+        }catch (Exception e){
+
+        }finally {
+            cursor.close();
+
+        }
+
+        // loop to get all the regions
+
+        //close the database
+        mDataBase.close();
+        return regions;
+    }
+
+    public ArrayList<String> getDistricts(){
+        String columns[] = {"district"};
+        String selectionColumn ="region= ?";
+//        String selectionArgs [] = new String[1];
+        String selectionArgs [] = {"Dar es Salaam Region"};
+        selectionArgs[0] =  selectedRegion;
+        ArrayList<String> districts = new ArrayList<>();
+
+        mDataBase = this.getReadableDatabase();
+
+        Cursor cursor =mDataBase.query(DISTRICT_TABLE, columns, selectionColumn, selectionArgs ,null, null, null);
+
+        int count = cursor.getColumnCount();
+        String cursorString;
+
+
+        try {
+            if(cursor != null){
+                if (cursor.moveToFirst()) {
+                    do {
+                        for (int i = 0; i < count; i++) {
+                            cursorString = cursor.getString(i);
+                            districts.add(cursorString);
+                        }
+
+                    } while (cursor.moveToNext());
+                }
+            }
+
+        }catch (Exception e){ } finally {
+            cursor.close();
+        }
 
 
         // loop to get all the regions
 
         //close the database
         mDataBase.close();
-        return columns;
+        return districts;
+    }
+
+    public ArrayList<String> getWards(){
+        String columns[] = {"Ward"};
+        String selectionColumn ="District = ?";
+//        String selectionArgs [] = new String[1];
+        String selectionArgs [] = {"Kinondoni Municipal"};
+        selectionArgs[0] =  selectedDistrict;
+        ArrayList<String> wards = new ArrayList<>();
+
+        mDataBase = this.getReadableDatabase();
+
+        Cursor cursor =mDataBase.query(WARD_TABLE, columns, selectionColumn, selectionArgs ,null, null, null);
+
+        int count = cursor.getColumnCount();
+        String cursorString;
+
+
+        try {
+            if(cursor != null){
+                if (cursor.moveToFirst()) {
+                    do {
+                        for (int i = 0; i < count; i++) {
+                            cursorString = cursor.getString(i);
+                            wards.add(cursorString);
+                        }
+
+                    } while (cursor.moveToNext());
+                }
+            }
+
+        }catch (Exception e){ } finally {
+            cursor.close();
+        }
+
+
+        // loop to get all the regions
+
+        //close the database
+        mDataBase.close();
+        return wards;
     }
 
     @Override
@@ -109,6 +228,7 @@ public class LocationDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//        Cursor cursor =mDataBase.query(DISTRICT_TABLE)
 
     }
 
