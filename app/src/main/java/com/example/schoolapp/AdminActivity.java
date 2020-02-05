@@ -86,10 +86,13 @@ public class AdminActivity extends AppCompatActivity {
         districtSpinner= (Spinner) findViewById(R.id.spinner_district_admin);
         wardSpinner = (Spinner) findViewById(R.id.spinner_ward_admin);
 
+        editRegNumber.setEnabled(false);
+        editDateInput.setEnabled(false);
 
 
         //        Database initialization
         databaseHelp = new DatabaseHelp(this);
+        editRegNumber.setText(databaseHelp.registrationNumberGenerate());
 
         //getting the date
         final Calendar calendar = Calendar.getInstance();
@@ -179,10 +182,6 @@ public class AdminActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
 
 
