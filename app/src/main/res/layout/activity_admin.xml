@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".AdminActivity"
@@ -96,16 +95,17 @@
             android:layout_marginLeft="20dp"
             android:paddingRight="15dp"
             android:layout_marginTop="30dp"/>
+
         <EditText
             android:id="@+id/date_input_admin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="30dp"
-            android:paddingRight="10dp"
+            android:editable="false"
             android:hint="10/03/2020"
             android:inputType="date"
-            android:editable="false"/>
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -148,25 +148,78 @@
                 android:paddingRight="10dp"
                 android:text="Female"/>
         </RadioGroup>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="10dp"
+            android:layout_marginTop="30dp">
 
-        <Spinner
-            android:id="@+id/spinner_region_admin"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="15dp"
+                android:textSize="20sp"
+                android:text="Select region"/>
+
+            <Spinner
+                android:id="@+id/spinner_region_admin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="10dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            />
+            android:paddingLeft="20dp"
+            android:paddingRight="15dp"
+            android:textSize="20sp"
+            android:text="Select District"/>
+
         <Spinner
             android:id="@+id/spinner_district_admin"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="10dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            />
+            android:paddingLeft="20dp"
+            android:paddingRight="15dp"
+            android:textSize="20sp"
+            android:text="Select Ward"/>
+
         <Spinner
             android:id="@+id/spinner_ward_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+
             />
+    </LinearLayout>
+
+
+
 
 
         <Button

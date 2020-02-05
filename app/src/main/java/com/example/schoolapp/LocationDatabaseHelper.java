@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class LocationDatabaseHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "tanzania.db";
     private static String DB_PATH = "";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
