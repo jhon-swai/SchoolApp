@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.schoolapp.AdminActivity;
 import com.example.schoolapp.MainActivity;
 import com.example.schoolapp.R;
 
@@ -116,9 +117,14 @@ public class LoginActivity extends AppCompatActivity {
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
 
-                // opening student activity
-                Intent StudentIntent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(StudentIntent);
+                if((usernameEditText.getText().toString()) == "Admin" && (passwordEditText.getText().toString()) == "12345678"){
+
+                }
+                Intent RegistrationActivity = new Intent(LoginActivity.this, AdminActivity.class);
+                startActivity(RegistrationActivity);
+//                // opening student activity
+//                Intent StudentIntent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(StudentIntent);
             }
         });
     }

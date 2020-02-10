@@ -13,7 +13,7 @@ public class DatabaseHelp extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "school.db";
     private static final String STAFF_TABLE = "staff";
     public static final String COLUMN_NAME_STAFF_ID = "staff_id";
@@ -33,10 +33,10 @@ public class DatabaseHelp extends SQLiteOpenHelper {
 
     public static final String COLUMN_NAME_PASSWORD = "password";
 
-    private static final String SQL_CREATE_STUDENT_ENTRIES = "CREATE TABLE " + STUDENT_TABLE + " (" + COLUMN_NAME_STUDENT_ID + "TEXT PRIMARY KEY," + COLUMN_NAME_FIRST_NAME + " TEXT," + COLUMN_NAME_LAST_NAME + " TEXT," +  COLUMN_NAME_EMAIL + " TEXT," + COLUMN_NAME_PHONE + " TEXT," + COLUMN_NAME_REGION + " TEXT," + COLUMN_NAME_DISTRICT + " TEXT," + COLUMN_NAME_WARD + " TEXT," + COLUMN_NAME_BIRTH_DATE + " TEXT, "+ COLUMN_NAME_PASSWORD + " TEXT ," + COLUMN_NAME_GENDER + " TEXT )";
+    private static final String SQL_CREATE_STUDENT_ENTRIES = "CREATE TABLE " + STUDENT_TABLE + " (" + COLUMN_NAME_STUDENT_ID + " TEXT PRIMARY KEY," + COLUMN_NAME_FIRST_NAME + " TEXT," + COLUMN_NAME_LAST_NAME + " TEXT," +  COLUMN_NAME_EMAIL + " TEXT," + COLUMN_NAME_PHONE + " TEXT," + COLUMN_NAME_REGION + " TEXT," + COLUMN_NAME_DISTRICT + " TEXT," + COLUMN_NAME_WARD + " TEXT," + COLUMN_NAME_BIRTH_DATE + " TEXT, "+ COLUMN_NAME_PASSWORD + " TEXT ," + COLUMN_NAME_GENDER + " TEXT )";
     private static final String SQL_DELETE_STUDENT_ENTRIES = "DROP TABLE IF EXISTS " + STUDENT_TABLE;
 
-    private static final String SQL_CREATE_STAFF_ENTRIES = "CREATE TABLE " + STAFF_TABLE + " (" + COLUMN_NAME_STAFF_ID + "TEXT PRIMARY KEY," + COLUMN_NAME_FIRST_NAME + " TEXT," + COLUMN_NAME_LAST_NAME + " TEXT," +  COLUMN_NAME_EMAIL + " TEXT," + COLUMN_NAME_PHONE + " TEXT," + COLUMN_NAME_REGION + " TEXT," + COLUMN_NAME_DISTRICT + " TEXT," + COLUMN_NAME_WARD + " TEXT," + COLUMN_NAME_BIRTH_DATE + " TEXT, "+ COLUMN_NAME_PASSWORD + " TEXT ," + COLUMN_NAME_GENDER + " TEXT )";
+    private static final String SQL_CREATE_STAFF_ENTRIES = "CREATE TABLE " + STAFF_TABLE + " (" + COLUMN_NAME_STAFF_ID + " TEXT PRIMARY KEY," + COLUMN_NAME_FIRST_NAME + " TEXT," + COLUMN_NAME_LAST_NAME + " TEXT," +  COLUMN_NAME_EMAIL + " TEXT," + COLUMN_NAME_PHONE + " TEXT," + COLUMN_NAME_REGION + " TEXT," + COLUMN_NAME_DISTRICT + " TEXT," + COLUMN_NAME_WARD + " TEXT," + COLUMN_NAME_BIRTH_DATE + " TEXT, "+ COLUMN_NAME_PASSWORD + " TEXT ," + COLUMN_NAME_GENDER + " TEXT )";
     private static final String SQL_DELETE_STAFF_ENTRIES = "DROP TABLE IF EXISTS " + STAFF_TABLE;
 
 
@@ -73,10 +73,13 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
-    public long insertStudent(String regNumber, String fName, String lName, String email, String phone, String region, String district, String ward, String birthDate,String password, String gender){
+    public void insertStudent(String regNumber, String fName, String lName, String email, String phone, String region, String district, String ward, String birthDate, String gender){
         db = this.getWritableDatabase();
 
+        String password = lName + fName;
+
         ContentValues values = new ContentValues();
+
         values.put(COLUMN_NAME_STUDENT_ID,regNumber);
         values.put(COLUMN_NAME_FIRST_NAME, fName);
         values.put(COLUMN_NAME_LAST_NAME,lName);
@@ -89,7 +92,8 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_PASSWORD, password);
         values.put(COLUMN_NAME_GENDER, gender);
 
-        return db.insert(STUDENT_TABLE,null,values);
+        db.insert(STUDENT_TABLE,null,values);
+        db.close();
     }
 
 /*    public String getStudentData(){
@@ -109,6 +113,9 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         int min = 0;
         int max = 99999;
         int assignedRegistrationNumber= min;
+        String regNumberString;
+
+
 
         String columns[]= {"Student"};
         columns[0] = COLUMN_NAME_STUDENT_ID;
@@ -133,34 +140,46 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         Cursor cursor;
 
         try {
-            cursor = db.query(STUDENT_TABLE,columns,null,null,null,null,null);
+            cursor = db.query(table_name,columns,null,null,null,null,null);
 
             count = cursor.getColumnCount();
 
-
             if (cursor.moveToFirst()) {
-                cursorString = cursor.getString(0);
-//                cursorString = cursor.getString(count-1);
+                cursorString = cursor.getString(count-1);
             }
 
         } catch (Exception e){ } finally {
 
         }
 //        Taking the last five digits of the registration number
-        if(cursorString != null) {
-            cursorString = cursorString.substring(8);
-            registrationNumberFromCursorString = Integer.parseInt(cursorString);
-            registrationNumberFromCursorString++;
-            assignedRegistrationNumber = registrationNumberFromCursorString;
+        if(table_name == STUDENT_TABLE){
+            if(cursorString != null) {
+                cursorString = cursorString.substring(8);
+                registrationNumberFromCursorString = Integer.parseInt(cursorString);
+                registrationNumberFromCursorString++;
+                assignedRegistrationNumber = registrationNumberFromCursorString;
 
+            } else {
+                assignedRegistrationNumber++;
+            }
+
+            regNumberString= Integer.toString(year) + "-04-" + String.format("%05d",assignedRegistrationNumber);
         }else {
-            assignedRegistrationNumber++;
+            if(cursorString != null) {
+                registrationNumberFromCursorString = Integer.parseInt(cursorString);
+                registrationNumberFromCursorString++;
+                assignedRegistrationNumber = registrationNumberFromCursorString;
+
+            } else {
+                assignedRegistrationNumber++;
+            }
+
+            regNumberString = String.format("%05d",assignedRegistrationNumber);
+
         }
 
+
         db.close();
-
-
-        String regNumberString = Integer.toString(year) + "-04-" + String.format("%05d",assignedRegistrationNumber);
         return regNumberString;
     }
 

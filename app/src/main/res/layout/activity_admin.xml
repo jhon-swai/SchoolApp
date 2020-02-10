@@ -14,15 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/student_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:textStyle="bold"
                 android:text="Student"/>
             <Button
+                android:id="@+id/staff_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="2"
                 android:textStyle="bold"
                 android:text="Staff"/>
@@ -120,9 +121,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="30dp"
-            android:editable="false"
+            android:focusable="false"
             android:hint="10/03/2020"
-            android:inputType="date"
+            android:inputType="none"
             android:paddingRight="10dp" />
 
         <TextView

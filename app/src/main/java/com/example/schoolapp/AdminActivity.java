@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +27,7 @@ public class AdminActivity extends AppCompatActivity {
 
     EditText editDateInput;
     DatePickerDialog datePickerDialog;
-    Button saveBtn;
+    Button saveBtn, studentBtn, staffBtn;
 
 //    input variables
     EditText editFirstName;
@@ -48,6 +49,10 @@ public class AdminActivity extends AppCompatActivity {
     Spinner regionSpinner;
     Spinner districtSpinner;
     Spinner wardSpinner;
+    String selectedRegion;
+    String selectedDistrict;
+    String selectedWard;
+    String selectedGender;
 
 
 
@@ -72,22 +77,63 @@ public class AdminActivity extends AppCompatActivity {
 
 
         editDateInput = (EditText) findViewById(R.id.date_input_admin);
+
+        // Button
         saveBtn = (Button) findViewById(R.id.save_btn_admin);
+        studentBtn =(Button) findViewById(R.id.student_btn);
+        staffBtn = (Button) findViewById(R.id.staff_btn);
+
         editFirstName = (EditText) findViewById(R.id.first_name_input_admin);
         editLastName = (EditText) findViewById(R.id.last_name_input_admin);
         editRegNumber = (EditText) findViewById(R.id.registration_number_input_admin);
         editEmail = (EditText) findViewById(R.id.email_input_admin);
         editPhone = (EditText) findViewById(R.id.phone_input_admin);
         radioGroupGender = (RadioGroup) findViewById(R.id.radio_grp_gender_admin);
-        radioButtonMale = (RadioButton) findViewById(R.id.radio_btn_male_admin);
-        radioButtonFemale =(RadioButton) findViewById(R.id.radio_btn_female_admin);
+//        radioButtonMale = (RadioButton) findViewById(R.id.radio_btn_male_admin);
+//        radioButtonFemale =(RadioButton) findViewById(R.id.radio_btn_female_admin);
 
         regionSpinner = (Spinner) findViewById(R.id.spinner_region_admin);
         districtSpinner= (Spinner) findViewById(R.id.spinner_district_admin);
         wardSpinner = (Spinner) findViewById(R.id.spinner_ward_admin);
 
+
+        //initial state
         editRegNumber.setEnabled(false);
-        editDateInput.setEnabled(false);
+        editRegNumber.setTextColor(Color.BLACK);
+        studentBtn.setBackgroundColor(Color.WHITE);
+        staffBtn.setBackgroundColor(Color.LTGRAY);
+        studentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                studentBtn.setBackgroundColor(Color.WHITE);
+                staffBtn.setBackgroundColor(Color.LTGRAY);
+                databaseHelp.setStudentOrTeacher("Student");
+                editRegNumber.setText(databaseHelp.registrationNumberGenerate());
+            }
+        });
+        staffBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                studentBtn.setBackgroundColor(Color.LTGRAY);
+                staffBtn.setBackgroundColor(Color.WHITE);
+                databaseHelp.setStudentOrTeacher("Teacher");
+                editRegNumber.setText(databaseHelp.registrationNumberGenerate());
+            }
+        });
+
+//
+//        check selected radio button
+
+        radioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                selectedGender = (
+                        (RadioButton) findViewById(radioGroupGender.getCheckedRadioButtonId())
+                ).getText().toString();
+
+            }
+        });
+
 
 
         //        Database initialization
@@ -116,6 +162,7 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+
 //        location spinners
         final ArrayList<String> wardSpinnerArray = new ArrayList<>();
         wardSpinnerArray.addAll(mLocationDBHelper.getWards());
@@ -125,7 +172,7 @@ public class AdminActivity extends AppCompatActivity {
         districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                selectedWard= wardSpinnerArray.get(position);
             }
 
             @Override
@@ -143,7 +190,7 @@ public class AdminActivity extends AppCompatActivity {
         districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedDistrict = districtSpinnerArray.get(position);
+                selectedDistrict = districtSpinnerArray.get(position);
                 mLocationDBHelper.setSelectedDistrict(selectedDistrict);
 
                 wardSpinnerArray.clear();
@@ -167,8 +214,8 @@ public class AdminActivity extends AppCompatActivity {
         regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectReg = regionSpinnerArray.get(position);
-                mLocationDBHelper.setSelectedRegion(selectReg);
+                selectedRegion = regionSpinnerArray.get(position);
+                mLocationDBHelper.setSelectedRegion(selectedRegion);
 
                 districtSpinnerArray.clear();
                 districtSpinnerArray.addAll(mLocationDBHelper.getDistricts());
@@ -184,15 +231,30 @@ public class AdminActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
 //        Saving the registration information using the save button
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                databaseHelp.insertStudent(editRegNumber.getText().toString(),editFirstName.getText().toString(),editLastName.getText().toString(), editEmail.getText().toString(), editPhone.getText().toString(), );
+
+                databaseHelp.insertStudent(
+                        editRegNumber.getText().toString(),
+                        editFirstName.getText().toString(),
+                        editLastName.getText().toString(),
+                        editEmail.getText().toString(),
+                        editPhone.getText().toString(),
+                        selectedRegion,
+                        selectedDistrict,
+                        selectedWard,
+                        editDateInput.getText().toString(),
+                        selectedGender
+                        );
+
+
+
+
+                editRegNumber.setText(databaseHelp.registrationNumberGenerate());
+
                 Toast.makeText(getApplicationContext(),"Information saved", Toast.LENGTH_SHORT).show();
 
             }
