@@ -7,13 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.lang.annotation.Target;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class DatabaseHelp extends SQLiteOpenHelper {
 
     SQLiteDatabase db;
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "school.db";
     private static final String STAFF_TABLE = "staff";
     public static final String COLUMN_NAME_STAFF_ID = "staff_id";
@@ -77,10 +79,17 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
 
         String password = lName + fName;
-
+        String table_name = STUDENT_TABLE;
         ContentValues values = new ContentValues();
 
-        values.put(COLUMN_NAME_STUDENT_ID,regNumber);
+//        Code to store the id of the staff or the student
+        if(studentOrTeacher == "Teacher") {
+            table_name = STAFF_TABLE;
+            values.put(COLUMN_NAME_STAFF_ID,regNumber);
+        }else {
+            values.put(COLUMN_NAME_STUDENT_ID,regNumber);
+        }
+
         values.put(COLUMN_NAME_FIRST_NAME, fName);
         values.put(COLUMN_NAME_LAST_NAME,lName);
         values.put(COLUMN_NAME_EMAIL,email);
@@ -91,10 +100,64 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         values.put(COLUMN_NAME_BIRTH_DATE, birthDate);
         values.put(COLUMN_NAME_PASSWORD, password);
         values.put(COLUMN_NAME_GENDER, gender);
-
-        db.insert(STUDENT_TABLE,null,values);
+        db.insert(table_name,null,values);
         db.close();
     }
+    public HashMap<String,String> getStudent(String userName, String password){
+        db = this.getReadableDatabase();
+        HashMap<String, String> hashMap = new HashMap<>();
+        String selectArgs[] = {userName};
+
+        String columns [] = {COLUMN_NAME_STUDENT_ID, COLUMN_NAME_PASSWORD};
+        try{
+            Cursor cursor = db.query(STUDENT_TABLE,columns, COLUMN_NAME_STUDENT_ID + "= ?", selectArgs,null,null, null);
+//            check the students table if it has the student
+            if(cursor != null){
+                cursor.moveToFirst();
+                int iRegNum = cursor.getColumnIndex(COLUMN_NAME_STUDENT_ID);
+                int iPassword = cursor.getColumnIndex(COLUMN_NAME_PASSWORD);
+
+                hashMap.put("regNumb", cursor.getString(iRegNum));
+                hashMap.put("password", cursor.getString(iPassword));
+                hashMap.put("role", "student");
+
+            }
+
+        } catch (Exception e){
+        }
+        db.close();
+        return hashMap;
+
+    }
+
+    public HashMap<String,String> getStaff(String userName, String password){
+        db = this.getReadableDatabase();
+        HashMap<String, String> hashMap = new HashMap<>();
+        String columns [] = {COLUMN_NAME_STAFF_ID, COLUMN_NAME_PASSWORD};
+        String [] selectArg = {userName};
+        try{
+// check the teachers table if it has the teacher
+                Cursor cursor = db.query(STAFF_TABLE,columns, COLUMN_NAME_STAFF_ID + "= ?" , selectArg,null,null, null);
+                if(cursor != null){
+                    cursor.moveToFirst();
+                    int iRegNum = cursor.getColumnIndex(COLUMN_NAME_STAFF_ID);
+                    int iPassword = cursor.getColumnIndex(COLUMN_NAME_PASSWORD);
+
+
+                    hashMap.put("regNumb", cursor.getString(iRegNum));
+                    hashMap.put("password", cursor.getString(iPassword));
+                    hashMap.put("role", "staff");
+
+                }
+
+        } catch (Exception e){
+        }
+        db.close();
+        return hashMap;
+
+    }
+
+
 
 /*    public String getStudentData(){
         db= this.getReadableDatabase();
@@ -182,7 +245,5 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         db.close();
         return regNumberString;
     }
-
-
 
 }

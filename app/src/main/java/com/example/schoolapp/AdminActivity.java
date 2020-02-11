@@ -250,8 +250,11 @@ public class AdminActivity extends AppCompatActivity {
                         selectedGender
                         );
 
-
-
+                /*editFirstName.setText("");
+                editLastName.setText("");
+                editEmail.setText("");
+                editPhone.setText("");
+*/
 
                 editRegNumber.setText(databaseHelp.registrationNumberGenerate());
 

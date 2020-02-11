@@ -24,12 +24,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.schoolapp.AdminActivity;
+import com.example.schoolapp.DatabaseHelp;
 import com.example.schoolapp.MainActivity;
 import com.example.schoolapp.R;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    DatabaseHelp databaseHelp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,16 +120,46 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                String userName = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-                if((usernameEditText.getText().toString()) == "Admin" && (passwordEditText.getText().toString()) == "12345678"){
+                if(userName.equalsIgnoreCase("Admin") && password.equalsIgnoreCase("123456") ){
+                    Intent RegistrationActivity = new Intent(LoginActivity.this, AdminActivity.class);
+                    startActivity(RegistrationActivity);
+                }
+                else {
+                    try{
+                        HashMap<String, String> hashMap = new HashMap<>();
+                        hashMap.putAll(databaseHelp.getStudent(userName,password));
+                        if(hashMap.isEmpty()){
+                            Toast.makeText(getApplicationContext(),"You are  not registered", Toast.LENGTH_SHORT);
+                        } else{
+                            if (hashMap.get("role").equalsIgnoreCase("student")) {
+                                if(userName.equalsIgnoreCase(hashMap.get("regNumb")) && password.equalsIgnoreCase(hashMap.get("password")) ) {
+                                    Intent RegistrationActivity = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(RegistrationActivity);
+                                } else {
+                                    Toast.makeText(getApplicationContext(),"Wrong password", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                if(userName.equalsIgnoreCase(hashMap.get("regNumb")) && password.equalsIgnoreCase(hashMap.get("password")) ) {
+                                    Intent RegistrationActivity = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(RegistrationActivity);
+                                } else {
+                                    Toast.makeText(getApplicationContext(),"Wrong password", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "The login crash", Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }
-                Intent RegistrationActivity = new Intent(LoginActivity.this, AdminActivity.class);
-                startActivity(RegistrationActivity);
-//                // opening student activity
-//                Intent StudentIntent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(StudentIntent);
-            }
+
+                }
+
+
         });
     }
 
