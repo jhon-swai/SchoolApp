@@ -3,6 +3,7 @@ package com.example.schoolapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -237,7 +238,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                databaseHelp.insertStudent(
+                databaseHelp.insertData(
                         editRegNumber.getText().toString(),
                         editFirstName.getText().toString(),
                         editLastName.getText().toString(),
@@ -250,13 +251,14 @@ public class AdminActivity extends AppCompatActivity {
                         selectedGender
                         );
 
-                /*editFirstName.setText("");
+                editFirstName.setText("");
                 editLastName.setText("");
                 editEmail.setText("");
                 editPhone.setText("");
-*/
 
                 editRegNumber.setText(databaseHelp.registrationNumberGenerate());
+                Intent viewActivity = new Intent(AdminActivity.this, StudentView.class);
+                startActivity(viewActivity);
 
                 Toast.makeText(getApplicationContext(),"Information saved", Toast.LENGTH_SHORT).show();
 

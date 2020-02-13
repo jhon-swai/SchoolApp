@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.lang.annotation.Target;
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -75,7 +76,7 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         super.onDowngrade(db, oldVersion, newVersion);
     }
 
-    public void insertStudent(String regNumber, String fName, String lName, String email, String phone, String region, String district, String ward, String birthDate, String gender){
+    public void insertData(String regNumber, String fName, String lName, String email, String phone, String region, String district, String ward, String birthDate, String gender){
         db = this.getWritableDatabase();
 
         String password = lName + fName;
@@ -108,7 +109,7 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         HashMap<String, String> hashMap = new HashMap<>();
         String selectArgs[] = {userName};
 
-        String columns [] = {COLUMN_NAME_STUDENT_ID, COLUMN_NAME_PASSWORD};
+        String columns [] = {COLUMN_NAME_STUDENT_ID, COLUMN_NAME_PASSWORD, COLUMN_NAME_FIRST_NAME, COLUMN_NAME_LAST_NAME};
         try{
             Cursor cursor = db.query(STUDENT_TABLE,columns, COLUMN_NAME_STUDENT_ID + "= ?", selectArgs,null,null, null);
 //            check the students table if it has the student
@@ -116,9 +117,15 @@ public class DatabaseHelp extends SQLiteOpenHelper {
                 cursor.moveToFirst();
                 int iRegNum = cursor.getColumnIndex(COLUMN_NAME_STUDENT_ID);
                 int iPassword = cursor.getColumnIndex(COLUMN_NAME_PASSWORD);
+                int iFname = cursor.getColumnIndex(COLUMN_NAME_FIRST_NAME);
+                int iLname = cursor.getColumnIndex(COLUMN_NAME_LAST_NAME);
+//                int iDOB = cursor.getColumnIndex(COLUMN_NAME_BIRTH_DATE);
 
                 hashMap.put("regNumb", cursor.getString(iRegNum));
                 hashMap.put("password", cursor.getString(iPassword));
+                hashMap.put("fname", cursor.getString(iFname));
+                hashMap.put("lname", cursor.getString(iLname));
+//                hashMap.put("DOB", cursor.getString(iDOB));
                 hashMap.put("role", "student");
 
             }
@@ -129,11 +136,35 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         return hashMap;
 
     }
+    public String getData(){
+        db = this.getReadableDatabase();
+        String [] columns= new String [] {COLUMN_NAME_STUDENT_ID, COLUMN_NAME_FIRST_NAME, COLUMN_NAME_LAST_NAME};
+        String result = "";
+
+        try{
+            Cursor cursor = db.query(STUDENT_TABLE, columns,null,null,null, null, null);
+            int iReg = cursor.getColumnIndex(COLUMN_NAME_STUDENT_ID);
+            int ifname = cursor.getColumnIndex(COLUMN_NAME_FIRST_NAME);
+            int ilname = cursor.getColumnIndex(COLUMN_NAME_LAST_NAME);
+
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()){
+                result = result +
+                        "ID: " + cursor.getString(iReg) + "\n" +
+                        "Name: " + cursor.getString(ifname) + " "+ cursor.getString(ilname) + "\n \n";
+
+            }
+        } catch (Exception e){}
+
+
+
+        db.close();
+        return result;
+    }
 
     public HashMap<String,String> getStaff(String userName, String password){
         db = this.getReadableDatabase();
         HashMap<String, String> hashMap = new HashMap<>();
-        String columns [] = {COLUMN_NAME_STAFF_ID, COLUMN_NAME_PASSWORD};
+        String columns [] = {COLUMN_NAME_STAFF_ID, COLUMN_NAME_PASSWORD , COLUMN_NAME_FIRST_NAME, COLUMN_NAME_LAST_NAME};
         String [] selectArg = {userName};
         try{
 // check the teachers table if it has the teacher
@@ -142,10 +173,14 @@ public class DatabaseHelp extends SQLiteOpenHelper {
                     cursor.moveToFirst();
                     int iRegNum = cursor.getColumnIndex(COLUMN_NAME_STAFF_ID);
                     int iPassword = cursor.getColumnIndex(COLUMN_NAME_PASSWORD);
+                    int iFname = cursor.getColumnIndex(COLUMN_NAME_FIRST_NAME);
+                    int iLname = cursor.getColumnIndex(COLUMN_NAME_LAST_NAME);
 
 
                     hashMap.put("regNumb", cursor.getString(iRegNum));
                     hashMap.put("password", cursor.getString(iPassword));
+                    hashMap.put("fname", cursor.getString(iFname));
+                    hashMap.put("lname", cursor.getString(iLname));
                     hashMap.put("role", "staff");
 
                 }
@@ -183,7 +218,7 @@ public class DatabaseHelp extends SQLiteOpenHelper {
         String columns[]= {"Student"};
         columns[0] = COLUMN_NAME_STUDENT_ID;
         String table_name = STUDENT_TABLE;
-        int registrationNumberFromCursorString;
+        int registrationNumberFromCursorString = 0;
 
         if(studentOrTeacher == "Student"){
             table_name = STUDENT_TABLE;
@@ -207,13 +242,15 @@ public class DatabaseHelp extends SQLiteOpenHelper {
 
             count = cursor.getColumnCount();
 
-            if (cursor.moveToFirst()) {
+            if (cursor.moveToLast()) {
                 cursorString = cursor.getString(count-1);
+                cursor.close();
             }
 
         } catch (Exception e){ } finally {
 
         }
+
 //        Taking the last five digits of the registration number
         if(table_name == STUDENT_TABLE){
             if(cursorString != null) {
@@ -231,6 +268,8 @@ public class DatabaseHelp extends SQLiteOpenHelper {
             if(cursorString != null) {
                 registrationNumberFromCursorString = Integer.parseInt(cursorString);
                 registrationNumberFromCursorString++;
+
+
                 assignedRegistrationNumber = registrationNumberFromCursorString;
 
             } else {
@@ -238,9 +277,7 @@ public class DatabaseHelp extends SQLiteOpenHelper {
             }
 
             regNumberString = String.format("%05d",assignedRegistrationNumber);
-
         }
-
 
         db.close();
         return regNumberString;

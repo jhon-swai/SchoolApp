@@ -103,7 +103,14 @@ public class UserLoginActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"You are  not registered", Toast.LENGTH_SHORT);
                             } else {
                                 if(userName.equalsIgnoreCase(hashMap.get("regNumb")) && password.equalsIgnoreCase(hashMap.get("password")) ) {
-                                    Intent staffActivity = new Intent(UserLoginActivity.this, StaffActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("regNumb", userName);
+                                    bundle.putString("password", password);
+                                    bundle.putString("bFname", hashMap.get("fname"));
+                                    bundle.putString("bLname", hashMap.get("lname"));
+                                    bundle.putString("role", hashMap.get("role"));
+                                    Intent staffActivity = new Intent(UserLoginActivity.this, MainActivity.class);
+                                    staffActivity.putExtras(bundle);
                                     startActivity(staffActivity);
                                 } else {
                                     Toast.makeText(getApplicationContext(),"Wrong password", Toast.LENGTH_SHORT).show();
@@ -115,7 +122,15 @@ public class UserLoginActivity extends AppCompatActivity {
                         } else{
 
                             if(userName.equalsIgnoreCase(hashMap.get("regNumb")) && password.equalsIgnoreCase(hashMap.get("password"))  ) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("regNumb", userName);
+                                bundle.putString("password", password);
+                                bundle.putString("bFname", hashMap.get("fname"));
+                                bundle.putString("bLname", hashMap.get("lname"));
+                                bundle.putString("role", hashMap.get("role"));
+
                                 Intent studentActivity = new Intent(UserLoginActivity.this, MainActivity.class);
+                                studentActivity.putExtras(bundle);
                                 startActivity(studentActivity);
                             } else {
                                 Toast.makeText(getApplicationContext(),"Wrong password", Toast.LENGTH_SHORT).show();
@@ -130,9 +145,6 @@ public class UserLoginActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
 
     private boolean validateUsername() {
